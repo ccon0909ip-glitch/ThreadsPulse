@@ -1,16 +1,3 @@
-# ThreadsPulse 自動編譯（不含 Threads 本體）
-#
-# 產出：
-#   ThreadsPulse sideload <版本>.zip   側載用（ThreadsPulse.dylib + ThreadsPulse.bundle + OpenThreadsSafariExtension.appex）
-#   ThreadsPulse rootless <版本>.deb   無根越獄（Dopamine / palera1n rootless）
-#   ThreadsPulse rootful <版本>.deb    有根越獄
-#
-# 觸發：
-#   - 推送到 main／master、開 Pull Request、或在 Actions 頁面按「Run workflow」→ 檔案在該次執行的 Artifacts
-#   - 推送 v 開頭的標籤（例如 v1.18.2）→ 另外自動建立 Release 並附上檔案
-#
-# 想直接得到注入好的 Threads IPA，請改用「Build IPA」workflow。
-
 name: Build
 
 on:
@@ -24,8 +11,8 @@ permissions:
   contents: read
 
 env:
-  SDK_VERSION: '16.5'   # 編譯用的 iOS SDK
-  MIN_IOS: '15.0'       # 最低支援 iOS 版本
+  SDK_VERSION: '16.5'
+  MIN_IOS: '15.0'
 
 jobs:
   build:
@@ -50,34 +37,36 @@ jobs:
           MAKE="gmake FINALPACKAGE=1 TARGET=iphone:clang:${SDK_VERSION}:${MIN_IOS}"
           mkdir -p dist
 
-          # 1) 無根越獄 .deb
           $MAKE clean
           $MAKE package THEOS_PACKAGE_SCHEME=rootless THEOS_PACKAGE_DIR=build/rootless
-          cp build/rootless/*.deb "dist/ThreadsPulse rootless ${VERSION}.deb"
+          cp build/rootless/*.deb "dist/ThreadsPulse_rootless_${VERSION}.deb"
 
-          # 2) 有根越獄 .deb（有根越獄的架構是 iphoneos-arm；只在這次編譯暫時替換，repo 裡的 control 不變）
           $MAKE clean
           cp control control.orig
           perl -pi -e 's/^Architecture: iphoneos-arm64$/Architecture: iphoneos-arm/' control
           $MAKE package THEOS_PACKAGE_DIR=build/rootful
           mv control.orig control
-          cp build/rootful/*.deb "dist/ThreadsPulse rootful ${VERSION}.deb"
+          cp build/rootful/*.deb "dist/ThreadsPulse_rootful_${VERSION}.deb"
 
-          # 3) 側載 zip（dylib + 語系 bundle + Safari 延伸功能）
-          $MAKE -C OpenThreadsSafariExtension
-          mkdir -p build/sideload
-          cp .theos/obj/ThreadsPulse.dylib build/sideload/
-          cp -R "layout/Library/Application Support/ThreadsPulse/ThreadsPulse.bundle" build/sideload/
-          cp -R OpenThreadsSafariExtension/.theos/obj/OpenThreadsSafariExtension.appex build/sideload/
-          (cd build/sideload && zip -qry "../../dist/ThreadsPulse sideload ${VERSION}.zip" \
-              ThreadsPulse.dylib ThreadsPulse.bundle OpenThreadsSafariExtension.appex)
+          $MAKE clean
+          cp control control.orig
+          perl -pi -e 's/^Architecture: iphoneos-arm64$/Architecture: iphoneos-arm64e/' control
+          $MAKE package THEOS_PACKAGE_DIR=build/roothide
+          mv control.orig control
+          cp build/roothide/*.deb "dist/ThreadsPulse_roothide_${VERSION}.deb"
+
+          mkdir -p build/trollfools
+          cp .theos/obj/ThreadsPulse.dylib build/trollfools/
+          cp -R "layout/Library/Application Support/ThreadsPulse/ThreadsPulse.bundle" build/trollfools/
+          (cd build/trollfools && zip -qry "../../dist/ThreadsPulse_TrollFools_${VERSION}.zip" \
+              ThreadsPulse.dylib ThreadsPulse.bundle)
 
           ls -la dist
 
       - name: 上傳 Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: ThreadsPulse ${{ steps.theos.outputs.version }}
+          name: ThreadsPulse_${{ steps.theos.outputs.version }}
           path: dist/*
 
   release:
