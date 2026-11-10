@@ -2,7 +2,7 @@
 
 [English](README.md) | **繁體中文**
 
-Threads（`com.burbn.barcelona`）的 iOS 增強插件。目前版本：**1.18.2**
+Threads（`com.burbn.barcelona`）的 iOS 增強插件。目前版本：**1.18.3**
 
 不需要越獄：用 GitHub Actions 就能編譯出注入好的 Threads IPA，再用自己的簽名工具安裝。
 
@@ -73,7 +73,7 @@ Threads（`com.burbn.barcelona`）的 iOS 增強插件。目前版本：**1.18.2
    - **ipa_url**：IPA 網址。已設定 Secret 就留空。
    - **variant**：`both`（兩種都產出，預設）、`sideload`、`noplugins`。
 4. 按 **Run workflow**，約 5～10 分鐘完成。
-5. 點進該次執行，頁面最下方 **Artifacts** 下載 `Threads <版本> + ThreadsPulse <版本> sideload` 或 `… noplugins`，解壓後就是 IPA。
+5. 點進該次執行，頁面最下方 **Artifacts** 下載 `Threads_<版本>_Pulse_<版本>_sideload` 或 `…_noplugins`，解壓後就是 IPA。
 6. 用你的簽名工具安裝。Artifact 會在 3 天後自動刪除。
 
 **常見錯誤**
@@ -96,15 +96,16 @@ Threads（`com.burbn.barcelona`）的 iOS 增強插件。目前版本：**1.18.2
 
 | 檔案 | 用途 |
 |---|---|
-| `ThreadsPulse sideload <版本>.zip` | 自行注入用：`ThreadsPulse.dylib`、`ThreadsPulse.bundle`、`OpenThreadsSafariExtension.appex`（放進 App 的 `PlugIns/`；免費帳號不要放） |
-| `ThreadsPulse rootless <版本>.deb` | 無根越獄（Dopamine／palera1n rootless） |
-| `ThreadsPulse rootful <版本>.deb` | 有根越獄 |
+| `ThreadsPulse_TrollFools_<版本>.zip` | TrollFools 或自行注入用：`ThreadsPulse.dylib`、`ThreadsPulse.bundle`（Safari 延伸功能只放在 sideload 版 IPA） |
+| `ThreadsPulse_rootless_<版本>.deb` | 無根越獄（Dopamine／palera1n rootless） |
+| `ThreadsPulse_rootful_<版本>.deb` | 有根越獄 |
+| `ThreadsPulse_roothide_<版本>.deb` | Roothide 越獄（Dopamine roothide、Bootstrap） |
 
-推送 `v` 開頭的標籤會自動建立 Release 並附上這三個檔案（不含 Threads 本體）：
+推送 `v` 開頭的標籤會自動建立 Release 並附上這四個檔案（不含 Threads 本體）：
 
 ```bash
-git tag v1.18.2
-git push origin v1.18.2
+git tag v1.18.3
+git push origin v1.18.3
 ```
 
 ### 本機編譯
