@@ -2,7 +2,7 @@
 
 **English** | [繁體中文](README.zh-TW.md)
 
-An iOS tweak for Threads (`com.burbn.barcelona`). Current version: **1.18.2**
+An iOS tweak for Threads (`com.burbn.barcelona`). Current version: **1.18.3**
 
 No jailbreak needed: build your own Threads IPA with ThreadsPulse injected using GitHub Actions, then install it with your own signing tool.
 
@@ -73,7 +73,7 @@ After installing, go to **Settings › Apps › Safari › Extensions** (on iOS 
    - **ipa_url**: the IPA link. Leave it empty if you set the Secret.
    - **variant**: `both` (default, builds both), `sideload` or `noplugins`.
 4. Click **Run workflow**. It takes about 5–10 minutes.
-5. Open the run, and at the bottom under **Artifacts**, download `Threads <version> + ThreadsPulse <version> sideload` or `… noplugins`. Unzip it to get the IPA.
+5. Open the run, and at the bottom under **Artifacts**, download `Threads_<version>_Pulse_<version>_sideload` or `…_noplugins`. Unzip it to get the IPA.
 6. Install it with your signing tool. Artifacts are deleted automatically after 3 days.
 
 **Common errors**
@@ -96,15 +96,16 @@ Pushing to `main` / `master`, opening a pull request, or running **Build** → *
 
 | File | Use |
 |---|---|
-| `ThreadsPulse sideload <version>.zip` | For manual injection: `ThreadsPulse.dylib`, `ThreadsPulse.bundle`, `OpenThreadsSafariExtension.appex` (goes into the app's `PlugIns/`; leave it out for free accounts) |
-| `ThreadsPulse rootless <version>.deb` | Rootless jailbreak (Dopamine / palera1n rootless) |
-| `ThreadsPulse rootful <version>.deb` | Rootful jailbreak |
+| `ThreadsPulse_TrollFools_<version>.zip` | For TrollFools or manual injection: `ThreadsPulse.dylib` and `ThreadsPulse.bundle` (the Safari extension is only included in the sideload IPA) |
+| `ThreadsPulse_rootless_<version>.deb` | Rootless jailbreak (Dopamine / palera1n rootless) |
+| `ThreadsPulse_rootful_<version>.deb` | Rootful jailbreak |
+| `ThreadsPulse_roothide_<version>.deb` | Roothide jailbreak (Dopamine roothide, Bootstrap) |
 
-Pushing a tag that starts with `v` also creates a Release with these three files (Threads itself is not included):
+Pushing a tag that starts with `v` also creates a Release with these four files (Threads itself is not included):
 
 ```bash
-git tag v1.18.2
-git push origin v1.18.2
+git tag v1.18.3
+git push origin v1.18.3
 ```
 
 ### Build locally
