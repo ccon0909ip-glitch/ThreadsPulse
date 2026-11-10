@@ -199,10 +199,16 @@ ThreadsPulse/
 
 ## Notes
 
-1. When Threads updates and renames a method, the matching hook silently stops working (no crash). Turn on Debug Hints to see which one.
-2. This project doesn't include or distribute Threads itself or any Meta code.
-3. Modifying the app and blocking ads may violate Threads' Terms of Service. Use at your own risk.
-4. Downloaded content is for personal use only; please respect the original creators.
+When Threads updates, some features may stop working for a while (no crash). Turn on Debug Hints to see which one, and feel free to report it.
+
+## Disclaimer
+
+1. This project is independently developed, unofficial software. It is not affiliated with, sponsored, authorized or endorsed by Meta Platforms, Inc. ("Meta") or Apple Inc. "Threads" and related marks are trademarks of Meta and are used here only to identify compatibility.
+2. This project does not include or distribute the Threads application or any part of it. Users must obtain any required files lawfully and must not publicly distribute modified applications.
+3. Modifying third-party applications may violate the applicable terms of service and may result in account restrictions, suspension or other consequences. Users assess and bear these risks on their own.
+4. All content downloaded through this project remains the property of its respective rights holders. Users may only use it for personal purposes to the extent permitted by law and must not infringe the rights of others.
+5. This project is provided "as is", without warranty of any kind, express or implied. In no event shall the author be liable for any direct, indirect, incidental or consequential damages arising from the use of, or inability to use, this project.
+6. By downloading, building or using this project, you acknowledge that you have read, understood and agreed to this disclaimer in full.
 
 ## Author
 
