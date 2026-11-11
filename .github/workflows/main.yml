@@ -1,0 +1,40 @@
+name: Build ThreadsPulse IPA
+
+on:
+  workflow_dispatch:
+    inputs:
+      ipa_url:
+        description: '脫殼 Threads.ipa 下載直連'
+        required: true
+        type: string
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Setup Tools
+        run: |
+          brew install ldid
+          npm install -g appdmgt
+
+      - name: Download Decrypted IPA
+        run: |
+          curl -L -o Threads.ipa "${{ github.event.inputs.ipa_url }}"
+
+      - name: Build Tweak & Inject
+        run: |
+          make package THEOS_PACKAGE_SCHEME=rootless
+          # 提取產出之 dylib 並注入 IPA
+          unzip -q Threads.ipa
+          cp -r packages/*.dylib Payload/*.app/
+          # 重新封裝
+          zip -qry ThreadsPulse.ipa Payload
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ThreadsPulse-IPA
+          path: ThreadsPulse.ipa
